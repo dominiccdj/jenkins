@@ -48,6 +48,6 @@ jobs:
 
         # Upload the SARIF file with the Java results: 'java-results.sarif'
 
-        echo ${{ secrets.GITHUB_TOKEN }} | codeql github upload-results --repository=$GITHUB_REPOSITORY \
+        codeql github upload-results --repository=$GITHUB_REPOSITORY \
             --ref=$GITHUB_REF --commit=$GITHUB_SHA \
-            --sarif=java-results.sarif --github-auth-stdin
+            --sarif=java-results.sarif --github-auth-stdin=${{ secrets.GITHUB_TOKEN }}
