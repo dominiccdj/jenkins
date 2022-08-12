@@ -44,7 +44,7 @@ jobs:
         # Tag the data as 'java' results and store in: 'java-results.sarif'
 
         codeql database analyze codeql-dbs/java java-code-scanning.qls \
-            --format=sarif-latest --sarif-category=java --output=java-results.sarif
+            --format=sarif-latest --sarif-category=java --output=java-results.sarif ./jenkins-codeql/jenkins
 
         # Upload the SARIF file with the Java results: 'java-results.sarif'
 
