@@ -36,7 +36,8 @@ jobs:
         
         # Create CodeQL databases for Java and Python in the 'codeql-dbs' directory
         # Call the normal build script for the codebase: 'myBuildScript'
-
+        
+        mkdir -p codeql-dbs/java
         codeql database create codeql-dbs/java --language=java 
 
         # Analyze the CodeQL database for Java, 'codeql-dbs/java'
