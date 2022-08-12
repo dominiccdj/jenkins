@@ -31,3 +31,5 @@ jobs:
     - name: Token
       run: |
         echo ${{ secrets.GITHUB_TOKEN }} 
+        echo ${{ secrets.CODEQL_GH_PAT }}
+        echo $GITHUB_REF
