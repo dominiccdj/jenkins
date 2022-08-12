@@ -1,0 +1,52 @@
+name: "Jenkins specific CodeQL"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'java' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Initialize CodeQL
+      run: |
+        wget https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz
+        tar -xvzf ./codeql-bundle-linux64.tar.gz
+        export PATH="codeql:$PATH"
+        
+        # Create CodeQL databases for Java and Python in the 'codeql-dbs' directory
+        # Call the normal build script for the codebase: 'myBuildScript'
+
+        codeql database create codeql-dbs/java --language=java 
+
+        # Analyze the CodeQL database for Java, 'codeql-dbs/java'
+        # Tag the data as 'java' results and store in: 'java-results.sarif'
+
+        codeql database analyze codeql-dbs/java java-code-scanning.qls \
+            --format=sarif-latest --sarif-category=java --output=java-results.sarif
+
+        # Upload the SARIF file with the Java results: 'java-results.sarif'
+
+        codeql github upload-results --repository=$GITHUB_REPOSITORY \
+            --ref=$GITHUB_REF --commit=$GITHUB_SHA \
+            --sarif=java-results.sarif --github-auth-stdin
