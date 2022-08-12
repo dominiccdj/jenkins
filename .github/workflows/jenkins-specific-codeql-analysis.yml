@@ -33,13 +33,16 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: ./jenkins-codeql/jenkins
+        
+    - name: Upgrade database
+      run: |
+        ls -al
+        ls -al /home/runner/work/_temp/codeql_databases/
+        ls -al /home/runner/work/_temp/codeql_databases/java
+        /opt/hostedtoolcache/CodeQL/0.0.0-20220728/x64/codeql/codeql database upgrade /home/runner/work/_temp/codeql_databases/java
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
       
-    - name: Upgrade database
-      run: |
-        /opt/hostedtoolcache/CodeQL/0.0.0-20220728/x64/codeql/codeql database upgrade /home/runner/work/_temp/codeql_databases/java
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
