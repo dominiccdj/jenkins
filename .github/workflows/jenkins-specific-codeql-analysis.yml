@@ -33,6 +33,9 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: ./jenkins-codeql/jenkins
+        
+    - name: Upgrade database
+      run: codeql database upgrade ../../_temp/codeql_databases/java
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
