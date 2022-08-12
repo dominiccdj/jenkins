@@ -30,7 +30,6 @@ jobs:
 
     - name: Initialize CodeQL
       run: |
-        echo $GITHUB_TOKEN
         wget https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz
         tar -xvzf ./codeql-bundle-linux64.tar.gz
         export PATH="codeql:$PATH"
@@ -49,6 +48,6 @@ jobs:
 
         # Upload the SARIF file with the Java results: 'java-results.sarif'
 
-        codeql github upload-results --repository=$GITHUB_REPOSITORY \
+        echo ${{ secrets.GITHUB_TOKEN }} | codeql github upload-results --repository=$GITHUB_REPOSITORY \
             --ref=$GITHUB_REF --commit=$GITHUB_SHA \
-            --sarif=java-results.sarif
+            --sarif=java-results.sarif --github-auth-stdin
