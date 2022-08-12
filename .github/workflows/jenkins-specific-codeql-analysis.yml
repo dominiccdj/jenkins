@@ -29,20 +29,13 @@ jobs:
         submodules: recursive
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v2.1.18
       with:
         languages: ${{ matrix.language }}
         queries: ./jenkins-codeql/jenkins
         
-    - name: Upgrade database
-      run: |
-        ls -al
-        ls -al /home/runner/work/_temp/codeql_databases/
-        ls -al /home/runner/work/_temp/codeql_databases/java
-        /opt/hostedtoolcache/CodeQL/0.0.0-20220728/x64/codeql/codeql database upgrade /home/runner/work/_temp/codeql_databases/java
-
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      uses: github/codeql-action/autobuild@v2.1.18
       
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v2.1.18
